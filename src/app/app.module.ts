@@ -18,20 +18,32 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EmptyRouteComponent } from './empty-route/empty-route.component';
-import { ListRegistroTirillaNoticiasComponent } from './components/list-registro-tirilla-noticias/list-registro-tirilla-noticias/list-registro-tirilla-noticias.component';
+import { ListRegistroTirillaNoticiasComponent } from './components/list-registro-tirilla-noticias/list-registro-tirilla-noticias.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CrudTirillaNoticiasComponent } from './components/crud-tirilla-noticias/crud-tirilla-noticias.component';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
     AppComponent,
     EmptyRouteComponent,
-    ListRegistroTirillaNoticiasComponent
+    ListRegistroTirillaNoticiasComponent,
+    CrudTirillaNoticiasComponent
   ],
   imports: [
     MatTabsModule,
+    MatChipsModule,
+    MatAutocompleteModule,
     BrowserModule,
+    MatRadioModule,
     MatCardModule,
     MatFormFieldModule,
+    MatSnackBarModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
@@ -42,6 +54,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatDialogModule,
     ReactiveFormsModule,
+    FormsModule,
+    MatSelectModule,
+    BrowserAnimationsModule,
     AppRoutingModule
   ],
   providers: [],

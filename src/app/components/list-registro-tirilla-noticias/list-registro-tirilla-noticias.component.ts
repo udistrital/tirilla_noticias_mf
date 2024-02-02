@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'udistrital-list-registro-tirilla-noticias',
@@ -19,7 +20,7 @@ export class ListRegistroTirillaNoticiasComponent {
   editingRowIndex: number | null = null; // Variable para rastrear la fila en edición
   editForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.editForm = this.fb.group({
       prioridad: [''],
       titulo: [''],
@@ -30,15 +31,7 @@ export class ListRegistroTirillaNoticiasComponent {
   }
 
   agregarNoticia() {
-    this.data.push({
-      prioridad: '',
-      titulo: '',
-      estilo: '',
-      etiqueta: '',
-      editar: ''
-    });
-
-    this.dataSource.data = this.data;
+    this.router.navigate(['/crear']);
   }
 
   editarFila(rowIndex: number) {

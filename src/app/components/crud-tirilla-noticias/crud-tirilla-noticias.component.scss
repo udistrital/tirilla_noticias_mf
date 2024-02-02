@@ -1,0 +1,67 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.mat-card {
+    height: 100%;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.border {
+    border: 1px solid #0093cd !important;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.p-5 {
+    padding: 12px;
+}
+
+.color {
+    color: #03678f;
+}
+
+.icono:hover {
+    color: #03678f;
+}
+
+.th-text {
+    color: black;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.width-id {
+    width: 30px;
+}
+
+.info {
+    background-color: #f6f2cf;
+    margin: 10px;
+    border-radius: 5px;
+    border: solid 1px #ddc342;
+    display: flex;
+    align-items: center;
+    color: #3c220c;
+}
+
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+.info-icon {
+    padding-right: 15px;
+    color: #ad9930;
+}
+
+.center {
+    align-items: center;
+}
+
+.mat-mdc-progress-spinner {
+    --mdc-circular-progress-active-indicator-color: #03678f;
+}
