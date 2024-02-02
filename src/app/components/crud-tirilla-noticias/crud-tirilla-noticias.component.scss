@@ -65,3 +65,12 @@
 .mat-mdc-progress-spinner {
     --mdc-circular-progress-active-indicator-color: #03678f;
 }
+
+/* styles.css */
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* O ajusta la altura según tus necesidades */
+  }
