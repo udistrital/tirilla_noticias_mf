@@ -3,11 +3,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
-@Component({
-  selector: 'udistrital-list-registro-tirilla-noticias',
-  templateUrl: './list-registro-tirilla-noticias.component.html',
-  styleUrls: ['./list-registro-tirilla-noticias.component.scss']
-})
 export class ListRegistroTirillaNoticiasComponent {
   cardSize = 4;
   displayedColumns: string[] = ['prioridad', 'titulo', 'estilo', 'etiqueta', 'editar'];

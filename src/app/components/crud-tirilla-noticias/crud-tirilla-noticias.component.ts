@@ -9,12 +9,6 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
-@Component({
-  selector: 'udistrital-crud-tirilla-noticias',
-  templateUrl: './crud-tirilla-noticias.component.html',
-  styleUrls: ['./crud-tirilla-noticias.component.scss']
-})
 export class CrudTirillaNoticiasComponent implements OnInit{
   nuevaTirilla: FormGroup;
 
