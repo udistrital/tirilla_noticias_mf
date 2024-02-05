@@ -1,5 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { CrudTirillaNoticiasComponent } from './components/crud-tirilla-noticias/crud-tirilla-noticias.component';
+import { ListTirillaNoticiasComponent } from './components/list-tirilla-noticias/list-tirilla-noticias.component';
+import { CrudPublicacionTirillaNoticiasComponent } from './components/crud-publicacion-tirilla-noticias/crud-publicacion-tirilla-noticias.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -15,29 +21,27 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { EmptyRouteComponent } from './empty-route/empty-route.component';
-import { ListRegistroTirillaNoticiasComponent } from './components/list-registro-tirilla-noticias/list-registro-tirilla-noticias.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CrudTirillaNoticiasComponent } from './components/crud-tirilla-noticias/crud-tirilla-noticias.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmptyRouteComponent,
-    ListRegistroTirillaNoticiasComponent,
-    CrudTirillaNoticiasComponent
+    CrudTirillaNoticiasComponent,
+    ListTirillaNoticiasComponent,
+    CrudPublicacionTirillaNoticiasComponent
   ],
   imports: [
     MatTabsModule,
     MatChipsModule,
+    MatCheckboxModule,
     MatAutocompleteModule,
     BrowserModule,
     MatRadioModule,

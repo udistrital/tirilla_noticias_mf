@@ -4,12 +4,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
-import {Observable, map, startWith} from 'rxjs';
+
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { startWith, map, Observable } from 'rxjs';
 
-export class CrudTirillaNoticiasComponent implements OnInit{
+@Component({
+  selector: 'udistrital-crud-tirilla-noticias',
+  templateUrl: './crud-tirilla-noticias.component.html',
+  styleUrls: ['./crud-tirilla-noticias.component.scss']
+})
+export class CrudTirillaNoticiasComponent {
   nuevaTirilla: FormGroup;
 
   @ViewChild('etiquetaInput', { read: ElementRef }) etiquetaInput!: ElementRef<HTMLInputElement>; 

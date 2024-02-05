@@ -6,12 +6,10 @@ describe('CrudTirillaNoticiasComponent', () => {
   let component: CrudTirillaNoticiasComponent;
   let fixture: ComponentFixture<CrudTirillaNoticiasComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ CrudTirillaNoticiasComponent ]
-    })
-    .compileComponents();
-
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [CrudTirillaNoticiasComponent]
+    });
     fixture = TestBed.createComponent(CrudTirillaNoticiasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
