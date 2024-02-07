@@ -39,16 +39,6 @@ export class ListTirillaNoticiasComponent {
     const row = this.data[rowIndex];
 
     this.editForm.setValue(row);
-  }
-
-  guardarEdicion() {
-    if (this.editingRowIndex !== null) {
-      this.data[this.editingRowIndex] = this.editForm.value;
-
-      this.editingRowIndex = null;
-      this.editForm.reset();
-
-      this.dataSource.data = this.data;
-    }
+    this.router.navigate(['/editar']);
   }
 }

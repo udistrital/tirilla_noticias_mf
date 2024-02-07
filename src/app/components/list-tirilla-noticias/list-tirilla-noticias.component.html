@@ -1,4 +1,4 @@
-<div>
+<div class="col-lg-12">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <mat-card>
         <mat-card-header>
@@ -62,11 +62,6 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
-                    <div *ngIf="editingRowIndex !== null">
-                        <form [formGroup]="editForm">
-                            <button mat-button (click)="guardarEdicion()">Guardar</button>
-                        </form>
-                    </div>
                 </div>
             </fieldset>
         </mat-card-content>

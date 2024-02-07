@@ -7,10 +7,12 @@ import { AppComponent } from './app.component';
 import { CrudTirillaNoticiasComponent } from './components/crud-tirilla-noticias/crud-tirilla-noticias.component';
 import { ListTirillaNoticiasComponent } from './components/list-tirilla-noticias/list-tirilla-noticias.component';
 import { CrudPublicacionTirillaNoticiasComponent } from './components/crud-publicacion-tirilla-noticias/crud-publicacion-tirilla-noticias.component';
+import { EditarTirillaNoticiasComponent } from './components/editar-tirilla-noticias/editar-tirilla-noticias.component';
 
 const routes: Routes = [
   { path: "lista", component: ListTirillaNoticiasComponent },
   { path: "crear", component:  CrudTirillaNoticiasComponent},
+  { path: "editar", component:  EditarTirillaNoticiasComponent},
   { path: "publicar", component:  CrudPublicacionTirillaNoticiasComponent},
   { path: "tirilla", component: AppComponent }];
 

@@ -29,6 +29,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { EditarTirillaNoticiasComponent } from './components/editar-tirilla-noticias/editar-tirilla-noticias.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     AppComponent,
     CrudTirillaNoticiasComponent,
     ListTirillaNoticiasComponent,
-    CrudPublicacionTirillaNoticiasComponent
+    CrudPublicacionTirillaNoticiasComponent,
+    EditarTirillaNoticiasComponent
   ],
   imports: [
     MatTabsModule,

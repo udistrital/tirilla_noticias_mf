@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
@@ -12,18 +12,18 @@ import { startWith, map, Observable } from 'rxjs';
 import { Noticia } from 'src/app/models/noticia';
 
 @Component({
-  selector: 'udistrital-crud-tirilla-noticias',
-  templateUrl: './crud-tirilla-noticias.component.html',
-  styleUrls: ['./crud-tirilla-noticias.component.scss']
+  selector: 'udistrital-editar-tirilla-noticias',
+  templateUrl: './editar-tirilla-noticias.component.html',
+  styleUrls: ['./editar-tirilla-noticias.component.scss']
 })
-export class CrudTirillaNoticiasComponent {
+export class EditarTirillaNoticiasComponent {
 
   //estructura unificada
   noticias: Noticia[] = [];
-
+  
   nuevaTirilla: FormGroup;
 
-  @ViewChild('etiquetaInput', { read: ElementRef }) etiquetaInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('etiquetaInput', { read: ElementRef }) etiquetaInput!: ElementRef<HTMLInputElement>; 
 
   constructor(private formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
     this.nuevaTirilla = this.formBuilder.group({

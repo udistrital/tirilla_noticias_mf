@@ -3,6 +3,7 @@ import {ThemePalette} from '@angular/material/core';
 import {FormsModule} from '@angular/forms';
 import {NgFor} from '@angular/common';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { Noticia } from 'src/app/models/noticia';
 
 export interface Task {
   name: string;
@@ -17,6 +18,9 @@ export interface Task {
 })
 export class CrudPublicacionTirillaNoticiasComponent {
 
+  //estructura unificada
+  noticias: Noticia[] = [];
+  
   //metodos extraidos de: https://v16.material.angular.io/components/checkbox/overview
   task: Task = {
     name: 'Todos los sistemas',
