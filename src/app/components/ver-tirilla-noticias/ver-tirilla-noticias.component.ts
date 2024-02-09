@@ -17,7 +17,9 @@ export class VerTirillaNoticiasComponent {
       descripcion: 'Descripción de la noticia 1',
       multimedia: ['imagen1.jpg' , 'video1.mp4'],
       estilo: 'estilo1',
-      prioridad: 2 
+      prioridad: 2 ,
+      fechaCreacion:  new Date('2023-01-02'), 
+      fechaModificacion:  new Date('2023-01-02'),
     },
     {
       id: '2',
@@ -28,7 +30,9 @@ export class VerTirillaNoticiasComponent {
       descripcion: 'Descripción de la noticia 2',
       multimedia: ['imagen2.jpg' ],
       estilo: 'estilo2',
-      prioridad: 1 
+      prioridad: 1 ,
+      fechaCreacion:  new Date('2023-01-01'), 
+      fechaModificacion:  new Date('2023-01-01'), 
     },
     {
       id: '3',
@@ -39,14 +43,22 @@ export class VerTirillaNoticiasComponent {
       descripcion: 'Descripción de la noticia 3',
       multimedia: ['imagen3.jpg' ],
       estilo: 'estilo2',
-      prioridad: 1 
+      prioridad: 1,
+      fechaCreacion:  new Date('2023-01-03'), 
+      fechaModificacion:  new Date('2023-01-03'),
     }
 
   ];
 
   ngOnInit(): void {
 
-    this.noticias.sort((a, b) => a.prioridad - b.prioridad);
+    this.noticias.sort((a, b) => {
+      if (a.prioridad !== b.prioridad) {
+        return a.prioridad - b.prioridad; 
+      } else {
+        return b.fechaModificacion.getTime() - a.fechaModificacion.getTime(); // Ordena por fecha de modificación, se asume que es más nueva
+      }
+    });
   }
 
   constructor() { }

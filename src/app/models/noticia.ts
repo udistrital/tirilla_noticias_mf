@@ -8,5 +8,7 @@ export interface Noticia {
   multimedia: string[];
   estilo: string;
   prioridad: number; 
+  fechaCreacion: Date; 
+  fechaModificacion: Date; 
 }
   
