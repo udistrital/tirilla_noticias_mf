@@ -32,7 +32,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditarTirillaNoticiasComponent } from './components/editar-tirilla-noticias/editar-tirilla-noticias.component';
 import { VerTirillaNoticiasComponent } from './components/ver-tirilla-noticias/ver-tirilla-noticias.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
