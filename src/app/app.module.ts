@@ -33,7 +33,6 @@ import { EditarTirillaNoticiasComponent } from './components/editar-tirilla-noti
 import { VerTirillaNoticiasComponent } from './components/ver-tirilla-noticias/ver-tirilla-noticias.component';
 import { HttpClientModule } from '@angular/common/http';
 
-
 @NgModule({
   declarations: [
     AppComponent,

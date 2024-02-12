@@ -41,3 +41,87 @@
 .noticia-descripcion {
     color: #555;
 }
+
+//other
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+  
+  .center-card {
+    width: 100%; /* O el ancho deseado */
+    max-width: 600px; /* O el ancho máximo deseado */
+    margin: 0 auto; /* Esto centrará la tarjeta horizontalmente */
+  }
+
+  
+.mat-card {
+    height: 100%;
+    width: 100%;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+.full-width {
+    width: 100%;
+  }
+  .flex-container {
+    display: flex;
+    gap: 16px; /* Agrega un espacio de 16px entre los elementos */
+  }
+  
+  .half-width {
+    flex: 1;
+  }
+.border {
+    border: 1px solid #0093cd !important;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.p-5 {
+    padding: 12px;
+}
+
+.color {
+    color: #03678f;
+}
+
+.icono:hover {
+    color: #03678f;
+}
+
+.th-text {
+    color: black;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.width-id {
+    width: 30px;
+}
+
+.info {
+    background-color: #f6f2cf;
+    margin: 10px;
+    border-radius: 5px;
+    border: solid 1px #ddc342;
+    display: flex;
+    align-items: center;
+    color: #3c220c;
+}
+
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+.info-icon {
+    padding-right: 15px;
+    color: #ad9930;
+}
+
+.mat-mdc-progress-spinner {
+    --mdc-circular-progress-active-indicator-color: #03678f;
+}
