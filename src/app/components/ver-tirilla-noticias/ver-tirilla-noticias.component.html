@@ -1,9 +1,10 @@
 <div class="container">
     <mat-card *ngFor="let noticia of noticias" class="noticia-card">
-        <ng-container *ngIf="noticia.estilo === 'estilo1'">
+        <ng-container *ngIf="noticia.estilo === 1">
             <mat-card-header>
                 <mat-card-title>{{ noticia.titulo }}</mat-card-title>
             </mat-card-header>
+            <!-- multimedia 
             <div class="multimedia-container">
                 <div *ngFor="let mediaUrl of noticia.multimedia">
                     <img *ngIf="mediaUrl.endsWith('.jpg')" [src]="mediaUrl" alt="Imagen">
@@ -12,13 +13,15 @@
                     </video>
                 </div>
             </div>
+            -->
 
             <mat-card-content>
                 <p>{{ noticia.descripcion }}</p>
                 <a href="{{noticia.link}}">Ver mas...</a>
             </mat-card-content>
         </ng-container>
-        <ng-container *ngIf="noticia.estilo === 'estilo2'">
+        <ng-container *ngIf="noticia.estilo === 2">
+            <!-- multimedia 
             <div class="multimedia-container">
                 <div *ngFor="let mediaUrl of noticia.multimedia">
                     <img *ngIf="mediaUrl.endsWith('.jpg')" [src]="mediaUrl" alt="Imagen">
@@ -27,6 +30,7 @@
                     </video>
                 </div>
             </div>
+            -->
             <mat-card-header>
                 <mat-card-title>{{ noticia.titulo }}</mat-card-title>
             </mat-card-header>

@@ -82,10 +82,10 @@ export class CrudTirillaNoticiasComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   etiquetaCtrl = new FormControl();
   filtroEtiquetas: Observable<string[]>;
-  //allEtiquetas: string[] = ['oati', 'sga', 'bienestar', 'rectoría', 'acádemica'];  // Define el tipo de datos correctamente
+  //allEtiquetas: string[] = ['oati', 'sga', 'bienestar', 'rectoría', 'acádemica'];
 
-  remove(fruit: string): void {
-    const index = this.etiquetas.indexOf(fruit);
+  remove(etiqueta: string): void {
+    const index = this.etiquetas.indexOf(etiqueta);
 
     if (index >= 0) {
       this.etiquetas.splice(index, 1);
@@ -144,15 +144,15 @@ export class CrudTirillaNoticiasComponent {
         IdTipoEtiqueta: this.etiquetas.map(etiqueta => this.allEtiquetas.indexOf(etiqueta) + 1)
       },
       Contenido: {
-        Id: [1,2],
-        Dato: [this.nuevaTirilla.value.titulo, this.nuevaTirilla.value.descripcion]
+        Id: [1,2,3],
+        Dato: [this.nuevaTirilla.value.titulo, this.nuevaTirilla.value.descripcion, this.nuevaTirilla.value.enlace]
       },
       ModuloPublicacion: {
         IdModulo: ["1","2"] // este dato esta quemado para que funcione
       }
     };
 
-    this.http.post<any>(`${environment.TIRILLA_MID_SERVICE}/noticia-mid`, nuevaNoticia).subscribe(
+    this.http.post<any>(`${environment.TIRILLA_MID_SERVICE}noticia-mid/`, nuevaNoticia).subscribe(
       response => {
         console.log('Noticia guardada exitosamente:', response);
         this.snackBar.open('Noticia guardada exitosamente', 'Cerrar', {
