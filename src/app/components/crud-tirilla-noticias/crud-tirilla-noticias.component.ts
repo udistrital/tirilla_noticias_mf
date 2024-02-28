@@ -10,6 +10,10 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { startWith, map, Observable } from 'rxjs';
 import { Noticia } from 'src/app/models/noticia';
+import { EnvioNoticia } from 'src/app/models/noticiaCrud';
+
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment'; 
 
 @Component({
   selector: 'udistrital-crud-tirilla-noticias',
@@ -20,17 +24,23 @@ export class CrudTirillaNoticiasComponent {
 
   //estructura unificada
   noticias: Noticia[] = [];
-
   nuevaTirilla: FormGroup;
+
+  //arrays donde se guarda el contenido de las peticiónes get
+  allEtiquetas: string[] = [];
+  etiquetas: string[] = [];
+  estilos: string[] = [];
+  prioridades: string[] = [];
 
   @ViewChild('etiquetaInput', { read: ElementRef }) etiquetaInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar, private http: HttpClient) {
     this.nuevaTirilla = this.formBuilder.group({
       titulo: ['', Validators.required],
       prioridad: ['', Validators.required],
       enlace: ['', Validators.required],
-      descripcion: ['', Validators.required]
+      descripcion: ['', Validators.required],
+      estilo: ['', Validators.required]
     });
     this.filtroEtiquetas = this.etiquetaCtrl.valueChanges.pipe(
       startWith(null),
@@ -44,15 +54,35 @@ export class CrudTirillaNoticiasComponent {
       prioridad: [''],
       enlace: [''],
       descripcion: [''],
+      estilo: ['']
+    });
+
+    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/tipo_etiqueta`).subscribe(response => {
+      if (response.Success) {
+        this.allEtiquetas = response.Data.map((etiqueta: any) => etiqueta.NombreEtiqueta);
+        if (this.allEtiquetas.length > 0) {
+          this.etiquetas = [this.allEtiquetas[0]]; 
+        }
+      }
+    });
+
+    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/tipo_estilo`).subscribe(response => {
+      if (response.Success) {
+        this.estilos = response.Data.map((estilo: any) => estilo.NombreEstilo);
+      }
+    });
+
+    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/tipo_prioridad`).subscribe(response => {
+      if (response.Success) {
+        this.prioridades = response.Data.map((prioridad: any) => prioridad.NombrePrioridad);
+      }
     });
   }
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
-
   etiquetaCtrl = new FormControl();
   filtroEtiquetas: Observable<string[]>;
-  etiquetas: string[] = ['oati'];
-  allEtiquetas: string[] = ['oati', 'sga', 'bienestar', 'rectoría', 'acádemica'];  // Define el tipo de datos correctamente
+  //allEtiquetas: string[] = ['oati', 'sga', 'bienestar', 'rectoría', 'acádemica'];  // Define el tipo de datos correctamente
 
   remove(fruit: string): void {
     const index = this.etiquetas.indexOf(fruit);
@@ -76,7 +106,7 @@ export class CrudTirillaNoticiasComponent {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.etiquetas.push(event.option.viewValue);
-    this.etiquetaInput.nativeElement.value = '';
+    //this.etiquetaInput.nativeElement.value = '';
     this.etiquetaCtrl.setValue(null);
   }
 
@@ -95,10 +125,47 @@ export class CrudTirillaNoticiasComponent {
   }
 
   guardar() {
-    console.log(this.nuevaTirilla.value);
-    this.snackBar.open('Noticia guardada existosamente', 'Cerrar', {
-      duration: 3000,
-    });
-    this.router.navigate(['/lista']);
+
+    const nuevaNoticia: EnvioNoticia = {
+      Noticia: {
+        Activo: true,
+        IdTipoEstilo: {
+          Id: this.estilos.indexOf(this.nuevaTirilla.value.estilo) + 1
+        },
+        IdTipoPrioridad: {
+          Id: this.prioridades.indexOf(this.nuevaTirilla.value.prioridad) + 1
+        }
+      },
+      Etiqueta: {
+        Activo: true,
+        IdNoticia: {
+          Id: null
+        },
+        IdTipoEtiqueta: this.etiquetas.map(etiqueta => this.allEtiquetas.indexOf(etiqueta) + 1)
+      },
+      Contenido: {
+        Id: [1,2],
+        Dato: [this.nuevaTirilla.value.titulo, this.nuevaTirilla.value.descripcion]
+      },
+      ModuloPublicacion: {
+        IdModulo: ["1","2"] // este dato esta quemado para que funcione
+      }
+    };
+
+    this.http.post<any>(`${environment.TIRILLA_MID_SERVICE}/noticia-mid`, nuevaNoticia).subscribe(
+      response => {
+        console.log('Noticia guardada exitosamente:', response);
+        this.snackBar.open('Noticia guardada exitosamente', 'Cerrar', {
+          duration: 3000,
+        });
+        this.router.navigate(['/lista']);
+    },
+      error => {
+        console.error('Error al guardar la noticia:', error);
+        this.snackBar.open('Error al guardar la noticia', 'Cerrar', {
+          duration: 3000,
+        });
+      }
+    );
   }
 }

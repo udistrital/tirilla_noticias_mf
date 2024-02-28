@@ -27,10 +27,9 @@
               </div>
               <div class="full-width flex-container">
                 <mat-form-field appearance="fill" class="half-width">
-                  <mat-label>Seleccione una prioridad</mat-label>
-                  <mat-select formControlName="prioridad">
-                    <mat-option value="one">1</mat-option>
-                    <mat-option value="two">2</mat-option>
+                  <mat-label>Selecciona una prioridad</mat-label>
+                  <mat-select formControlName="prioridad" required>
+                    <mat-option *ngFor="let prioridad of prioridades" [value]="prioridad">{{ prioridad }}</mat-option>
                   </mat-select>
                 </mat-form-field>
   
@@ -75,9 +74,8 @@
               </div>
 
               <div class="full-width">
-                <mat-radio-group aria-label="Select an option">
-                  <mat-radio-button value="1">Estilo 1</mat-radio-button>
-                  <mat-radio-button value="2">Estilo 2</mat-radio-button>
+                <mat-radio-group aria-label="Select an option" formControlName="estilo">
+                  <mat-radio-button *ngFor="let estilo of estilos" [value]="estilo">{{ estilo }}</mat-radio-button>
                 </mat-radio-group>
               </div>
   

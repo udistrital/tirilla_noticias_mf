@@ -30,7 +30,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditarTirillaNoticiasComponent } from './components/editar-tirilla-noticias/editar-tirilla-noticias.component';
-
+import { VerTirillaNoticiasComponent } from './components/ver-tirilla-noticias/ver-tirilla-noticias.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { EditarTirillaNoticiasComponent } from './components/editar-tirilla-noti
     CrudTirillaNoticiasComponent,
     ListTirillaNoticiasComponent,
     CrudPublicacionTirillaNoticiasComponent,
-    EditarTirillaNoticiasComponent
+    EditarTirillaNoticiasComponent,
+    VerTirillaNoticiasComponent
   ],
   imports: [
     MatTabsModule,
@@ -63,7 +65,8 @@ import { EditarTirillaNoticiasComponent } from './components/editar-tirilla-noti
     FormsModule,
     MatSelectModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
