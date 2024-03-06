@@ -70,7 +70,7 @@ export class EditarTirillaNoticiasComponent {
     });
 
 
-    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/tipo_etiqueta`).subscribe(response => {
+    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/noticia_etiqueta`).subscribe(response => {
       if (response.Success) {
         this.allEtiquetas = response.Data.map((etiqueta: any) => etiqueta.NombreEtiqueta);
         if (this.allEtiquetas.length > 0) {
@@ -79,15 +79,15 @@ export class EditarTirillaNoticiasComponent {
       }
     });
 
-    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/tipo_estilo`).subscribe(response => {
+    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/noticia`).subscribe(response => {
       if (response.Success) {
-        this.estilos = response.Data.map((estilo: any) => estilo.NombreEstilo);
+        this.estilos = response.Data.map((estilo: any) => estilo.IdEstilo);
       }
     });
 
-    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/tipo_prioridad`).subscribe(response => {
+    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/noticia`).subscribe(response => {
       if (response.Success) {
-        this.prioridades = response.Data.map((prioridad: any) => prioridad.NombrePrioridad);
+        this.prioridades = response.Data.map((prioridad: any) => prioridad.Prioridad);
       }
     });
   }
