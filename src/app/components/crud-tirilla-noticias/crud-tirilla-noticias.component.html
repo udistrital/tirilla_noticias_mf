@@ -69,17 +69,19 @@
                 </mat-form-field>
               </div>
 
-              <div>
-                <button mat-button (click)="cargarArchivos()">Cargar Archivos</button>
-              </div>
-
               <div class="full-width">
+                <h6>Selecciona un estilo</h6>
                 <mat-radio-group aria-label="Select an option" formControlName="estilo">
                   <mat-radio-button *ngFor="let estilo of estilos" [value]="estilo">{{ estilo }}</mat-radio-button>
                 </mat-radio-group>
               </div>
-  
-              <button mat-button (click)="guardar()">Cargar Archivos</button>
+
+
+              <div>
+                <input type="file" (change)="onFileSelected($event)">
+              </div>
+
+              <button mat-button (click)="guardar()">Guardar</button>
             </form>
           </div>
         </fieldset>

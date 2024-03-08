@@ -23,48 +23,57 @@
                     </button>
                 </div>
                 <div>
-                    <table mat-table [dataSource]="data">
-
-                        <!-- Prioridad de la noticia -->
-                        <ng-container matColumnDef="prioridad">
-                            <th mat-header-cell *matHeaderCellDef> Prioridad </th>
-                            <td mat-cell *matCellDef="let row"> {{ row.prioridad }} </td>
-                        </ng-container>
+                    <table mat-table [dataSource]="source">
 
                         <!-- Título de la noticia -->
                         <ng-container matColumnDef="titulo">
                             <th mat-header-cell *matHeaderCellDef> Título </th>
-                            <td mat-cell *matCellDef="let row"> {{ row.titulo }} </td>
+                            <td mat-cell *matCellDef="let noticia"> {{ noticia.Titulo}} </td>
+                        </ng-container>
+
+                        <!-- Estado de la noticia -->
+                        <ng-container matColumnDef="activo">
+                            <th mat-header-cell *matHeaderCellDef> Activo </th>
+                            <td mat-cell *matCellDef="let noticia"> {{ noticia.Activo}} </td>
+                        </ng-container>
+
+                        <!-- Prioridad de la noticia -->
+                        <ng-container matColumnDef="prioridad">
+                            <th mat-header-cell *matHeaderCellDef> Prioridad </th>
+                            <td mat-cell *matCellDef="let noticia"> {{ noticia.Prioridad }} </td>
                         </ng-container>
 
                         <!-- Estilo de la noticia -->
                         <ng-container matColumnDef="estilo">
                             <th mat-header-cell *matHeaderCellDef> Estilo </th>
-                            <td mat-cell *matCellDef="let row"> {{ row.estilo }} </td>
+                            <td mat-cell *matCellDef="let noticia"> {{ noticia.Estilo }} </td>
                         </ng-container>
 
-                        <!-- Etiquetas de la noticia -->
-                        <ng-container matColumnDef="etiqueta">
+                       <!-- Etiquetas de la noticia -->
+                       <ng-container matColumnDef="etiqueta">
                             <th mat-header-cell *matHeaderCellDef> Etiquetas </th>
-                            <td mat-cell *matCellDef="let row"> {{ row.etiqueta }} </td>
+                            <td mat-cell *matCellDef="let noticia">
+                                <span *ngFor="let etiqueta of noticia.Etiquetas">
+                                    {{ etiqueta }}
+                                </span>
+                            </td>
                         </ng-container>
 
                         <!-- Edición -->
                         <ng-container matColumnDef="editar">
                             <th mat-header-cell *matHeaderCellDef> Editar </th>
-                            <td mat-cell *matCellDef="let row; let i = index">
-                                <button mat-icon-button (click)="editarFila(i)">
+                            <td mat-cell *matCellDef="let noticia; let i = index">
+                                <button mat-icon-button (click)="editarFila(noticia)">
                                     <mat-icon aria-label="Editar">edit</mat-icon>
                                 </button>
                             </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr mat-row *matRowDef="let noticia; columns: displayedColumns;"></tr>
                     </table>
                 </div>
             </fieldset>
         </mat-card-content>
     </mat-card>
-
 </div>

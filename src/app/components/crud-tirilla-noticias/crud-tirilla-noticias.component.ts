@@ -32,6 +32,10 @@ export class CrudTirillaNoticiasComponent {
   estilos: string[] = [];
   prioridades: string[] = [];
 
+  // seleccion de archivo multimedia
+  selectedFile: File | null = null;
+  imageBase64: string | null = null;
+
   @ViewChild('etiquetaInput', { read: ElementRef }) etiquetaInput!: ElementRef<HTMLInputElement>;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar, private http: HttpClient) {
@@ -82,10 +86,10 @@ export class CrudTirillaNoticiasComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   etiquetaCtrl = new FormControl();
   filtroEtiquetas: Observable<string[]>;
-  //allEtiquetas: string[] = ['oati', 'sga', 'bienestar', 'rectoría', 'acádemica'];  // Define el tipo de datos correctamente
+  //allEtiquetas: string[] = ['oati', 'sga', 'bienestar', 'rectoría', 'acádemica'];
 
-  remove(fruit: string): void {
-    const index = this.etiquetas.indexOf(fruit);
+  remove(etiqueta: string): void {
+    const index = this.etiquetas.indexOf(etiqueta);
 
     if (index >= 0) {
       this.etiquetas.splice(index, 1);
@@ -124,6 +128,35 @@ export class CrudTirillaNoticiasComponent {
     });
   }
 
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    // Verificar si se seleccionó un archivo
+    if (file) {
+      // Verificar si el tipo de archivo es una imagen
+      if (file.type.match(/image\/*/) === null) {
+        // Mostrar un mensaje de error si el archivo seleccionado no es una imagen
+        this.snackBar.open('Por favor, selecciona una imagen.', 'Cerrar', {
+          duration: 3000,
+        });
+        // Reiniciar el valor del input de archivo
+        event.target.value = '';
+      } else {
+        // Si es una imagen, continuar con la conversión a base64
+        this.selectedFile = file;
+        this.convertToBase64(file);
+      }
+    }
+  }
+
+
+  convertToBase64(file: File) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.imageBase64 = reader.result as string;
+    };
+  }
+
   guardar() {
 
     const nuevaNoticia: EnvioNoticia = {
@@ -144,15 +177,15 @@ export class CrudTirillaNoticiasComponent {
         IdTipoEtiqueta: this.etiquetas.map(etiqueta => this.allEtiquetas.indexOf(etiqueta) + 1)
       },
       Contenido: {
-        Id: [1,2],
-        Dato: [this.nuevaTirilla.value.titulo, this.nuevaTirilla.value.descripcion]
+        Id: [1,2,3],
+        Dato: [this.nuevaTirilla.value.titulo, this.nuevaTirilla.value.descripcion, this.imageBase64]
       },
       ModuloPublicacion: {
         IdModulo: ["1","2"] // este dato esta quemado para que funcione
       }
     };
 
-    this.http.post<any>(`${environment.TIRILLA_MID_SERVICE}/noticia-mid`, nuevaNoticia).subscribe(
+    this.http.post<any>(`${environment.TIRILLA_MID_SERVICE}noticia-mid/`, nuevaNoticia).subscribe(
       response => {
         console.log('Noticia guardada exitosamente:', response);
         this.snackBar.open('Noticia guardada exitosamente', 'Cerrar', {

@@ -1,14 +1,11 @@
-export interface Noticia {
-  id: string;
-  titulo: string;
-  link: string;
-  sistemas: string[];
-  etiquetas: string[];
-  descripcion: string;
-  multimedia: string[];
-  estilo: string;
-  prioridad: number; 
-  fechaCreacion: Date; 
-  fechaModificacion: Date; 
+export class Noticia {
+  constructor(
+    public activo: boolean,
+    public descripcion: string,
+    public estilo: number,
+    public link: string,
+    public prioridad: number,
+    public titulo: string
+  ) {}
 }
   
