@@ -8,12 +8,13 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { startWith, map, Observable } from 'rxjs';
+import { startWith, map, Observable, switchMap } from 'rxjs';
 import { Noticia } from 'src/app/models/noticia';
 import { EnvioNoticia } from 'src/app/models/noticiaCrud';
 
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment'; 
+import { environment } from 'src/environments/environment';
+import { isDataSource } from '@angular/cdk/collections';
 
 @Component({
   selector: 'udistrital-crud-tirilla-noticias',
@@ -27,10 +28,12 @@ export class CrudTirillaNoticiasComponent {
   nuevaTirilla: FormGroup;
 
   //arrays donde se guarda el contenido de las peticiónes get
-  allEtiquetas: string[] = [];
-  etiquetas: string[] = [];
-  estilos: string[] = [];
-  prioridades: string[] = [];
+  allEtiquetas: any[] = [];
+  etiquetas: any[] = [];
+  //este valor esta temporalmente quemado hasta la implementación con parametros_crud
+  estilos: number[] = [1, 2];
+  prioridades: number[] = [1, 2, 3, 4, 5];
+  ids: any;
 
   chipGrid: any;
 
@@ -48,10 +51,13 @@ export class CrudTirillaNoticiasComponent {
       descripcion: ['', Validators.required],
       estilo: ['', Validators.required]
     });
+    this.cargarEtiquetas();
     this.filtroEtiquetas = this.etiquetaCtrl.valueChanges.pipe(
       startWith(null),
-      map((etiqueta: string | null) => (etiqueta ? this._filter(etiqueta) : this.allEtiquetas.slice())),
+      switchMap(() => this.cargarEtiquetas()),
+      map((ids: string[]) => ids)
     );
+    //this.allEtiquetas = ['oati', 'sga', 'bienestar', 'rectoría', 'acádemica'];
   }
 
   ngOnInit(): void {
@@ -63,17 +69,30 @@ export class CrudTirillaNoticiasComponent {
       estilo: ['']
     });
 
-    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/noticia_etiqueta`).subscribe(response => {
-      if (response.Success) {
-        this.allEtiquetas = response.Data.map((etiqueta: any) => etiqueta.IdEtiqueta);
-      }
+    this.cargarEtiquetas();
+  }
+
+  cargarEtiquetas(): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/noticia_etiqueta/`).subscribe(
+        (response) => {
+          console.log(response);
+          const ids = response.map((etiqueta: { IdEtiqueta: any; }) => etiqueta.IdEtiqueta.toString());
+          console.log(ids);
+          resolve(ids);
+        },
+        (error) => {
+          console.error('Error al obtener las noticias:', error);
+          reject(error);
+        }
+      );
     });
   }
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   etiquetaCtrl = new FormControl();
   filtroEtiquetas: Observable<string[]>;
-  //allEtiquetas: string[] = ['oati', 'sga', 'bienestar', 'rectoría', 'acádemica'];
+
 
   remove(etiqueta: string): void {
     const index = this.etiquetas.indexOf(etiqueta);
@@ -147,39 +166,46 @@ export class CrudTirillaNoticiasComponent {
   guardar() {
 
     const nuevaNoticia: EnvioNoticia = {
-      Noticia: {
-        Activo: true,
-        IdTipoEstilo: {
-          Id: this.estilos.indexOf(this.nuevaTirilla.value.estilo) + 1
+      Prioridad: this.nuevaTirilla.value.prioridad,
+      IdEstilo: this.nuevaTirilla.value.estilo,
+      FechaInicio: "2024-03-07T12:11:16.7665693-05:00",
+      FechaFinal: "2024-03-07T12:11:16.7665693-05:00",
+      Contenido: [
+        {
+          Dato: "{\"dato\": \"" + this.nuevaTirilla.value.titulo + "\"}",
+          //este valor esta temporalmente quemado hasta la implementación con parametros_crud
+          IdContenido: 1
         },
-        IdTipoPrioridad: {
-          Id: this.prioridades.indexOf(this.nuevaTirilla.value.prioridad) + 1
+        {
+          Dato: "{\"dato\": \"" + this.nuevaTirilla.value.descripcion + "\"}",
+          //este valor esta temporalmente quemado hasta la implementación con parametros_crud
+          IdContenido: 2
+        },
+        {
+          Dato: "{\"dato\": \"" + this.nuevaTirilla.value.link + "\"}",
+          //este valor esta temporalmente quemado hasta la implementación con parametros_crud
+          IdContenido: 3
+        }/*, 
+        {
+          Dato: "{\"dato\": \"" + this.imageBase64 + "\"}",
+          IdContenido: 4
+        }*/
+      ],
+      Etiqueta: [
+        {
+          IdEtiqueta: 1
         }
-      },
-      Etiqueta: {
-        Activo: true,
-        IdNoticia: {
-          Id: null
-        },
-        IdTipoEtiqueta: this.etiquetas.map(etiqueta => this.allEtiquetas.indexOf(etiqueta) + 1)
-      },
-      Contenido: {
-        Id: [1,2,3],
-        Dato: [this.nuevaTirilla.value.titulo, this.nuevaTirilla.value.descripcion, this.imageBase64]
-      },
-      ModuloPublicacion: {
-        IdModulo: ["1","2"] // este dato esta quemado para que funcione
-      }
+      ],
     };
 
-    this.http.post<any>(`${environment.TIRILLA_MID_SERVICE}noticia-mid/`, nuevaNoticia).subscribe(
+    this.http.post<any>(`${environment.TIRILLA_MID_SERVICE}/noticia-mid/`, nuevaNoticia).subscribe(
       response => {
         console.log('Noticia guardada exitosamente:', response);
         this.snackBar.open('Noticia guardada exitosamente', 'Cerrar', {
           duration: 3000,
         });
         this.router.navigate(['/lista']);
-    },
+      },
       error => {
         console.error('Error al guardar la noticia:', error);
         this.snackBar.open('Error al guardar la noticia', 'Cerrar', {

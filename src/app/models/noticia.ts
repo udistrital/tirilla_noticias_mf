@@ -5,7 +5,8 @@ export class Noticia {
     public estilo: number,
     public link: string,
     public prioridad: number,
-    public titulo: string
+    public titulo: string,
+    public etiqueta: number
   ) {}
 }
   

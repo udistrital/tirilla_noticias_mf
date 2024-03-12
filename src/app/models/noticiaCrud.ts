@@ -1,27 +1,23 @@
-// Modelo para la Noticia
-export interface Noticia {
-  Activo: boolean;
-  IdTipoEstilo: {
-    Id: number;
-  };
-  IdTipoPrioridad: {
-    Id: number;
-  };
-}
 
 // Modelo para la Etiqueta
 export interface Etiqueta {
-  Activo: boolean;
-  IdNoticia: {
-    Id: number | null;
-  };
-  IdTipoEtiqueta: number[];
+  IdEtiqueta: number;
 }
-
 // Modelo para el Contenido
 export interface Contenido {
-  Id: number[];
-  Dato: string[];
+  Dato: string;
+  IdContenido: number;
+}
+// Modelo para la Etiqueta
+export interface EtiquetaP {
+  IdEtiqueta: number;
+  Id:number;
+}
+// Modelo para el Contenido
+export interface ContenidoP {
+  Dato: string;
+  IdContenido: number;
+  Id:number;
 }
 
 // Modelo para el Id del modulo de publicación
@@ -31,18 +27,27 @@ export interface ModuloPublicacion {
 
 // Modelo para el envío completo
 export interface EnvioNoticia {
-  Noticia: Noticia;
-  Etiqueta: Etiqueta;
-  Contenido: Contenido;
-  ModuloPublicacion: ModuloPublicacion;
+  Prioridad: number;
+  IdEstilo: number;
+  FechaInicio: string;
+  FechaFinal: string;
+  Etiqueta: Etiqueta[];
+  Contenido: Contenido[];
 }
 
 // Modelo para el envío completo
-export interface ListarNoticias {
-  Noticia: NoticiaGet;
-  Etiqueta: Etiqueta;
-  Contenido: Contenido;
+export interface PutNoticia {
+  Prioridad: number;
+  IdEstilo: number;
+  Activo: boolean;
+  Id: number;
+  FechaInicio: string;
+  FechaFinal: string;
+  FechaCreacion: string;
+  Etiqueta: EtiquetaP[];
+  Contenido: ContenidoP[];
 }
+// Modelo para el envío completo
 
 export interface NoticiaGet {
   Id: number;
@@ -61,9 +66,6 @@ export interface listadoNoticias {
   Estilo: string;
   Etiquetas: string[];
 }
-
-
-
 
 // // Modelo para recibir la noticia completa con etiquetas y contenido del backend
 

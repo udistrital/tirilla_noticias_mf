@@ -26,8 +26,8 @@ export class VerTirillaNoticiasComponent {
       (response) => {
         console.log(response);
         this.noticias = response.data.map((item: any) => {
-          const { activo, descripcion, estilo, link, prioridad, titulo } = item;
-          return new Noticia(activo, descripcion, estilo, link, prioridad, titulo);
+          const { activo, descripcion, estilo, link, prioridad, titulo, etiqueta } = item;
+          return new Noticia(activo, descripcion, estilo, link, prioridad, titulo, etiqueta);
         });
         console.log("Noticias:", this.noticias);
       },

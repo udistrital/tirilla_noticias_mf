@@ -8,12 +8,12 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { startWith, map, Observable } from 'rxjs';
+import { startWith, map, Observable, switchMap } from 'rxjs';
 import { NoticiasService } from 'src/app/services/noticias.service';
 
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment'; 
-import { EnvioNoticia } from 'src/app/models/noticiaCrud';
+import { EnvioNoticia, PutNoticia } from 'src/app/models/noticiaCrud';
 
 @Component({
   selector: 'udistrital-editar-tirilla-noticias',
@@ -27,10 +27,12 @@ export class EditarTirillaNoticiasComponent {
   receivedData: any;
   allEtiquetas: string[] = [];
   etiquetas: string[] = [];
-  estilos: string[] = [];
-  prioridades: string[] = [];
+  //este valor esta temporalmente quemado hasta la implementación con parametros_crud
+  estilos: number[] = [1, 2];
+  prioridades: number[] = [1, 2, 3, 4, 5];
   opciones: boolean[] = [true, false];
-  estado!: boolean;
+  estado: boolean=true;
+  IDNoticia :number | undefined;
 
   // seleccion de archivo multimedia
   selectedFile: File | null = null;
@@ -49,9 +51,11 @@ export class EditarTirillaNoticiasComponent {
       estilo: ['', Validators.required],
       estado: ['', Validators.required]
     });
+    this.cargarEtiquetas();
     this.filtroEtiquetas = this.etiquetaCtrl.valueChanges.pipe(
       startWith(null),
-      map((etiqueta: string | null) => (etiqueta ? this._filter(etiqueta) : this.allEtiquetas.slice())),
+      switchMap(() => this.cargarEtiquetas()),
+      map((ids: string[]) => ids)
     );
   }
 
@@ -60,24 +64,21 @@ export class EditarTirillaNoticiasComponent {
       this.receivedData = datos;
     });
 
+    console.log("recibe",this.receivedData)
+
+
+
     this.nuevaTirilla = this.formBuilder.group({
-      titulo: this.receivedData.Titulo,
-      prioridad: this.receivedData.Prioridad,
+      titulo: this.receivedData.titulo,
+      prioridad: this.receivedData.prioridad,
       enlace: [''],
-      descripcion: this.receivedData.Descripcion,
-      estilo: this.receivedData.Estilo,
-      estado: this.receivedData.Activo
+      descripcion: this.receivedData.descripcion,
+      estilo: this.receivedData.estilo,
+      estado: this.receivedData.activo
+      //etiqueta: this.receivedData.etiqueta
     });
 
-
-    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/noticia_etiqueta`).subscribe(response => {
-      if (response.Success) {
-        this.allEtiquetas = response.Data.map((etiqueta: any) => etiqueta.NombreEtiqueta);
-        if (this.allEtiquetas.length > 0) {
-          this.etiquetas = this.receivedData.Etiquetas; 
-        }
-      }
-    });
+    this.cargarEtiquetas();
 
     this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/noticia`).subscribe(response => {
       if (response.Success) {
@@ -85,10 +86,22 @@ export class EditarTirillaNoticiasComponent {
       }
     });
 
-    this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/noticia`).subscribe(response => {
-      if (response.Success) {
-        this.prioridades = response.Data.map((prioridad: any) => prioridad.Prioridad);
-      }
+  }
+
+  cargarEtiquetas(): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      this.http.get<any>(`${environment.TIRILLA_CRUD_SERVICE}/noticia_etiqueta/`).subscribe(
+        (response) => {
+          console.log(response);
+          const ids = response.map((etiqueta: { IdEtiqueta: any; }) => etiqueta.IdEtiqueta.toString());
+          console.log(ids);
+          resolve(ids);
+        },
+        (error) => {
+          console.error('Error al obtener las noticias:', error);
+          reject(error);
+        }
+      );
     });
   }
 
@@ -98,8 +111,8 @@ export class EditarTirillaNoticiasComponent {
   filtroEtiquetas: Observable<string[]>;
   //allEtiquetas: string[] = ['oati', 'sga', 'bienestar', 'rectoría', 'acádemica'];  // Define el tipo de datos correctamente
 
-  remove(fruit: string): void {
-    const index = this.etiquetas.indexOf(fruit);
+  remove(etiqueta: string): void {
+    const index = this.etiquetas.indexOf(etiqueta);
 
     if (index >= 0) {
       this.etiquetas.splice(index, 1);
@@ -172,34 +185,38 @@ export class EditarTirillaNoticiasComponent {
   }
 
   guardar() {
-
-    const nuevaNoticia: EnvioNoticia = {
-      Noticia: {
-        Activo: this.nuevaTirilla.value.estado,
-        IdTipoEstilo: {
-          Id: this.estilos.indexOf(this.nuevaTirilla.value.estilo) + 1
-        },
-        IdTipoPrioridad: {
-          Id: this.prioridades.indexOf(this.nuevaTirilla.value.prioridad) + 1
+    const nuevaNoticia: PutNoticia = {
+      Prioridad: this.nuevaTirilla.value.prioridad,
+      IdEstilo: this.nuevaTirilla.value.estilo,
+      Activo: this.nuevaTirilla.value.estado,
+      FechaInicio: this.receivedData.fechaInicio,
+      FechaFinal: this.receivedData.fechaFinal,
+      FechaCreacion: this.receivedData.fechaCreacion,
+      Id: this.receivedData.id,
+      Etiqueta: [
+        {
+          IdEtiqueta: 1,
+          Id: this.receivedData.idEtiqueta,
         }
-      },
-      Etiqueta: {
-        Activo: true,
-        IdNoticia: {
-          Id: null
+      ],
+      Contenido: [
+        {
+          Dato: "{\"dato\": \"" + this.nuevaTirilla.value.titulo + "\"}",
+          //este valor esta temporalmente quemado hasta la implementación con parametros_crud
+          IdContenido: 1,
+          Id: this.receivedData.idTitulo
         },
-        IdTipoEtiqueta: this.etiquetas.map(etiqueta => this.allEtiquetas.indexOf(etiqueta) + 1)
-      },
-      Contenido: {
-        Id: [1,2,3],
-        Dato: [this.nuevaTirilla.value.titulo, this.nuevaTirilla.value.descripcion, this.imageBase64]
-      },
-      ModuloPublicacion: {
-        IdModulo: ["1","2"] // este dato esta quemado para que funcione
-      }
+        {
+          Dato: "{\"dato\": \"" + this.nuevaTirilla.value.descripcion + "\"}",
+          //este valor esta temporalmente quemado hasta la implementación con parametros_crud
+          IdContenido: 2,
+          Id: this.receivedData.idDesc
+        }
+      ],
     };
+    this.IDNoticia = this.receivedData.id;
 
-    this.http.put<any>(`${environment.TIRILLA_MID_SERVICE}/noticia-mid/${this.receivedData.Id}`, nuevaNoticia).subscribe(
+    this.http.put<any>(`${environment.TIRILLA_MID_SERVICE}/noticia-mid/${this.IDNoticia}`, nuevaNoticia).subscribe(
       response => {
         console.log('Noticia actualizada exitosamente:', response);
         this.snackBar.open('Noticia actualizada exitosamente', 'Cerrar', {
@@ -221,6 +238,7 @@ export class EditarTirillaNoticiasComponent {
     });
 
     this.router.navigate(['/lista']);
+    
   }
 
   handleData(data: any) {
